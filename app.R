@@ -1,23 +1,23 @@
 options(dplyr.summarise.inform = FALSE)
-pkgload::load_all()
+# pkgload::load_all()
 
-df_questions <- read_csv("matspropgame.csv") |>
-  mutate(index = row_number()) |>
-  pivot_longer(c(-question,-index), names_to = NULL, values_to = "choices") |>
-  filter(!is.na(choices)) |>
-  mutate(choices = str_squish(choices) |> str_remove_all("\\)$") |> paste0(")")) |>
+df_questions <- read_csv("matspropgame.csv") %>%
+  mutate(index = row_number()) %>%
+  pivot_longer(c(-question,-index), names_to = NULL, values_to = "choices") %>%
+  filter(!is.na(choices)) %>%
+  mutate(choices = str_squish(choices) %>% str_remove_all("\\)$") %>% paste0(")")) %>%
   extract(choices,remove = FALSE,regex = "\\(([0-9]+)",into = "score", convert = TRUE)
 
-question_select_table <- df_questions |>
-  group_by(index,question) |>
+question_select_table <- df_questions %>%
+  group_by(index,question) %>%
   summarise(
     choices = list(c("Select", choices)),
     scores = list(score)
-  ) |>
-  ungroup() |>
+  ) %>%
+  ungroup() %>%
   mutate(
-    Select = map2_chr(paste0("question_",row_number()), choices, ~selectInput(.x,label = NULL, choices = .y) |> as.character())
-  ) |>
+    Select = map2_chr(paste0("question_",row_number()), choices, ~selectInput(.x,label = NULL, choices = .y) %>% as.character())
+  ) %>%
   select(Question = question, Select)
 
 ui <- dashboardPage(
@@ -70,7 +70,7 @@ server <- function(input, output, session) {
 
   output$contest_table <- renderDT({
 
-    question_select_table |>
+    question_select_table %>%
       datatable(
         rownames = FALSE,
         escape = FALSE,
@@ -89,12 +89,12 @@ server <- function(input, output, session) {
   })
 
   selections <- reactive({
-    question_select_table |>
-      select(-Select) |>
+    question_select_table %>%
+      select(-Select) %>%
       mutate(
         Selection = read_inputs(paste0("question_",row_number()))
-      ) |>
-      left_join(df_questions |> select(Question = question, Selection = choices, SelectionScore = score), by = c("Question","Selection"))
+      ) %>%
+      left_join(df_questions %>% select(Question = question, Selection = choices, SelectionScore = score), by = c("Question","Selection"))
   })
 
   observeEvent(input$review_entry, {

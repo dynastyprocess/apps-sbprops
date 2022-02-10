@@ -10,7 +10,7 @@ A (minimum) $5 donation to [GirlsWhoCode.com](https://GirlsWhoCode.com/donate), 
 
 **PRIZE** 
 
-One year of Discord Nitro and a special flair!
+Six months of Discord Nitro and a special flair!
 
 **OTHER RULES**
 
