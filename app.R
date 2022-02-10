@@ -33,6 +33,17 @@ ui <- dashboardPage(
     useWaiter(),
     waiterOnBusy(html = spin_dots(), color = transparent(0.3)),
     use_sever(),
+    meta() %>%
+      meta_social(
+        title = "TDM Super Bowl Props Contest",
+        description = "A props contest! Minimum $5 donation to enter. Prize: bragging rights and Discord Nitro!",
+        url = "https://apps.dynastyprocess.com/tdm-sbprops",
+        image = "https://github.com/dynastyprocess/graphics/raw/main/.dynastyprocess/logohexonly.png",
+        image_alt = "DynastyProcess logo",
+        twitter_creator = "@_TanHo",
+        twitter_card_type = "summary",
+        twitter_site = "@DynastyProcess"
+      ),
     tabItems(
       tabItem(
         tabName = "contest",

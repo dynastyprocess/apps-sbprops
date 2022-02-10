@@ -15,6 +15,7 @@ suppressPackageStartupMessages({
   library(waiter)
   library(sever)
   library(tantastic)
+  library(metathis)
 
   # Data output
   library(writexl)
